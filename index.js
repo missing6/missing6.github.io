@@ -1,7 +1,10 @@
-const btn = document.querySelector("button");
-const sentence = document.querySelector("#sentence");
-const input = document.querySelector("input");
-function show() {
-	sentence.innerText = input.value;
-}
-input.onchange = show;
+const displayText = document.querySelector("#nText");
+const inputField = document.querySelector("input");
+// Add the event listener
+inputField.addEventListener('input', function(event) {
+	// Update the displayText content with the input field value
+	displayText.textContent = 'Input changed to: ' + event.target.value;
+	
+	// Change the color of the displayText to red
+	displayText.style.color = 'red';
+  });
