@@ -1,6 +1,7 @@
 input {
 	text-align: right;
+	box-shadow: bisque;
 }
 h2 {
-	text-align: center;
+	background-color: aqua;
 }
