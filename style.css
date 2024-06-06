@@ -1,10 +1,8 @@
-input {
-	text-align: center;
-	box-shadow: bisque;
-}
-h2 {
-	background-color: cyan;
-}
 body {
- background-color: blue;
+	text-align: center;
+}
+input {
+	  text-align: center;
+	  box-shadow: bisque;
+	width: 80%;
 }
