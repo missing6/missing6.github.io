@@ -1,8 +1,9 @@
 body {
-	text-align: center;
+	text-align: justify;
+
 }
 input {
-	  text-align: center;
-	  box-shadow: bisque;
-	width: 80%;
+	text-align: center;
+	box-shadow: bisque;
+	width: 50%;
 }
