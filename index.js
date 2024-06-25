@@ -25,12 +25,14 @@ inputField.addEventListener("input", function (event) {
   var lastChar = dpReadText.substr(dpReadText.length - 1);
   if (lastChar === " ") dpReadText = dpReadText.slice(0, -1);
   // Update the displayText content with the input field value
-  displayText.textContent = 'Output: ' + '"' + dpText + '"';
-  // if (dpText.substr(dpText.length - 3) === '000') 
+  displayText.textContent = dpText;
+  // if (dpText.substr(dpText.length - 3) === '000')
   //   displayReadText.textContent = dpReadText + " đồng chẵn.";
-  // else 
+  // else
   //   displayReadText.textContent = dpReadText + " đồng.";
-   displayReadText.textContent = dpReadText;
+  displayReadText.textContent = dpReadText;
+  fetchData("ja");
+  fetchData("zh");
 });
 function removeLeadingZeros(num) {
   return num.replace(/^0+/, "");
@@ -79,24 +81,32 @@ function docHangTram(sNum3) {
   } else return "không trăm " + docHangChuc(sNum3.slice(-2));
 }
 function docHangNghin(sNum6) {
-  if (docBatKy(sNum6.slice(0, sNum6.length - 4)) !== "") 
-    return docBatKy(sNum6.slice(0, sNum6.length - 4)) + " nghìn " + docHangTram(sNum6.slice(-3));
-  else
-    return docHangTram(sNum6.slice(-3));
+  if (docBatKy(sNum6.slice(0, sNum6.length - 4)) !== "")
+    return (
+      docBatKy(sNum6.slice(0, sNum6.length - 4)) +
+      " nghìn " +
+      docHangTram(sNum6.slice(-3))
+    );
+  else return docHangTram(sNum6.slice(-3));
 }
 function docHangTrieu(sNum9) {
   if (docBatKy(sNum9.slice(0, sNum9.length - 8)) !== "")
-      return docBatKy(sNum9.slice(0, sNum9.length - 8)) + " triệu " + docHangNghin(sNum9.slice(sNum9.length - 7, sNum9.length)); 
-  else 
-      return docHangNghin(sNum9.slice(sNum9.length - 7, sNum9.length));
+    return (
+      docBatKy(sNum9.slice(0, sNum9.length - 8)) +
+      " triệu " +
+      docHangNghin(sNum9.slice(sNum9.length - 7, sNum9.length))
+    );
+  else return docHangNghin(sNum9.slice(sNum9.length - 7, sNum9.length));
 }
 function docHangTy(sNum12) {
-   if (docBatKy(sNum12.slice(sNum12.length - 12, sNum12.length - 9)) !== "") {
-     var tTy = docBatKy(sNum12.slice(0, sNum12.length - 12));
-     return tTy + " tỷ " + docHangTrieu(sNum12.slice(sNum12.length - 11, sNum12.length)); 
-   }  
-   else 
-     return docHangTrieu(sNum12.slice(sNum12.length - 11, sNum12.length));
+  if (docBatKy(sNum12.slice(sNum12.length - 12, sNum12.length - 9)) !== "") {
+    var tTy = docBatKy(sNum12.slice(0, sNum12.length - 12));
+    return (
+      tTy +
+      " tỷ " +
+      docHangTrieu(sNum12.slice(sNum12.length - 11, sNum12.length))
+    );
+  } else return docHangTrieu(sNum12.slice(sNum12.length - 11, sNum12.length));
 }
 function docBatKy(sNum) {
   if (sNum.length === 1) return docSo(sNum);
@@ -112,3 +122,33 @@ function docBatKy(sNum) {
     return docHangTy(sNum);
   }
 }
+//----translate--------
+function fetchData(lang) {
+  let inputtext = document.getElementById("displayReadText").textContent;
+  console.log(inputtext);
+  // Replace with your actual API URL
+  const apiUrl =
+    `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${lang}&dt=t&q=` +
+    inputtext;
+  console.log(apiUrl);
+  fetch(apiUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      //console.log(response.json());
+      return response.json();
+    })
+    .then((data) => {
+      // Display the result
+      console.log(data);
+      let result = JSON.stringify(data[0][0][0]);
+      //console.log(result);
+      let output = "translatedText" + lang;
+      document.getElementById(output).textContent = result;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+}
+//////////////////////////////////
