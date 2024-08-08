@@ -33,6 +33,7 @@ inputField.addEventListener("input", function (event) {
   displayReadText.textContent = dpReadText;
   fetchData("ja");
   fetchData("zh");
+  fetchData("en");
 });
 function removeLeadingZeros(num) {
   return num.replace(/^0+/, "");
