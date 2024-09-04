@@ -34,6 +34,7 @@ inputField.addEventListener("input", function (event) {
   fetchData("ja");
   fetchData("zh");
   fetchData("en");
+  fetchData("fr");
 });
 function removeLeadingZeros(num) {
   return num.replace(/^0+/, "");
